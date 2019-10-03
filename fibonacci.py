@@ -1,30 +1,31 @@
-import itertools
+# A bad implementation of the fibonacci sequence.
 
-def second_order(p, q, r, initial_values):
+def fibonacci(n):
     """
-    Fibonacci numbers follow a homogeneous linear 
-    recurrence relation with constant coefficients
-    Fn = Fn-1 + Fn-2
-    https://en.wikipedia.org/wiki/Recurrence_relation
-    with a solution defined by 
-    s(n) = p * s(n-1) + q * s(n-2) + r.
-    where p, q and r are constants. 
-    To Fibonacci sequence:
-    p = 1
-    q = 1
-    r = 0
-    And de initial conditions 
-    F0 = 0 
-    F1 = 1
+    a very bad implementation for finding the n'th element of the fibonacci sequence.
     """
-    intermediate = itertools.accumulate(
-        itertools.repeat(initial_values),
-        lambda s, _: (s[1], p*s[1] + q*s[0] + r)
-    )
-    return map(lambda x: x[0], intermediate)
+    #0,1,1,2,3,5,8...
 
-if __name__ == "__main__":
-    n = int(input('n: '))
-    fibonacci = second_order(p=1, q=1, r=0, initial_values=(0, 1))
-    print(list(next(fibonacci) for _ in range(n)))
+    if n<=0:
+        print("ERROR!")
+    elif n==1:
+        return 0
+    elif n==2:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
 
+def fibonacci_seq(*args):
+    """
+    Returns the first n elements using the fibonacci function if given
+    only one argument ,or finds a subsequence if given two arguments, I.e.
+    fibonacci_seq(n,m) returns [fn, fn+1, fn+2, .. ,fm], and fibonacci_seq(m)
+    returns [f1, f2, .. ,fn], where fi is the i'th element of the sequence
+    """
+
+    if len(args) == 1:
+        return [fibonacci(n) for n in range(1,args[0]+1)]
+    elif len(args) == 2:
+        return [fibonacci(n) for n in range(args[0], args[1]+1)]
+    else:
+        print("ERROR!!")
